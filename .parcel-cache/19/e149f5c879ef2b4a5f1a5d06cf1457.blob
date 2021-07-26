@@ -1,0 +1,14 @@
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _viewJs = require("./View.js");
+var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class PreviewView extends _viewJsDefault.default {
+    _parentElement = '';
+    _generateMarkup() {
+        const id = window.location.hash.slice(1);
+        return `\n        <li class="preview">\n            <a class="preview__link ${this._data.id === id ? 'preview__link--active' : ''}" href="#${this._data.id}">\n                <figure class="preview__fig">\n                    <img src="${this._data.image}" alt="${this._data.title}" />\n                </figure>\n                <div class="preview__data">\n                    <h4 class="preview__title">${this._data.title}</h4>\n                    <p class="preview__publisher">${this._data.publisher}</p>\n                    <div class="preview__user-generated ${this._data.key ? '' : 'hidden'}">\n                        <svg>\n                        <use href="${_iconsSvgDefault.default}#icon-user"></use>\n                        </svg>\n                    </div>\n                </div>\n            </a>\n        </li>\n        `;
+    }
+}
+exports.default = new PreviewView();

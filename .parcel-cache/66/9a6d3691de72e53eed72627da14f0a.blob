@@ -1,0 +1,63 @@
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _modelJs = require("./model.js");
+var _recipeViewJs = require("./views/recipeView.js");
+var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
+var _searchViewJs = require("./views/searchView.js");
+var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
+var _resultsViewJs = require("./views/resultsView.js");
+var _resultsViewJsDefault = parcelHelpers.interopDefault(_resultsViewJs);
+var _paginationViewJs = require("./views/paginationView.js");
+var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
+var _stable = require("core-js/stable");
+var _runtime = require("regenerator-runtime/runtime");
+// if(module.hot){
+//   module.hot.accept();
+// };
+const controlRecipes = async function() {
+    try {
+        const id = window.location.hash.slice(1);
+        if (!id) return;
+        _recipeViewJsDefault.default.renderSpinner();
+        // Loading recipe
+        await _modelJs.loadRecipe(id);
+        // Rendering recipe
+        _recipeViewJsDefault.default.render(_modelJs.state.recipe);
+    } catch (err) {
+        _recipeViewJsDefault.default.renderError();
+    }
+};
+const controlSearchResults = async function() {
+    try {
+        _resultsViewJsDefault.default.renderSpinner();
+        // Get search query
+        const query = _searchViewJsDefault.default.getQuery();
+        if (!query) return;
+        // Load search results
+        await _modelJs.loadSearchResults(query);
+        // Render results
+        _resultsViewJsDefault.default.render(_modelJs.getSearchResultsPage(3));
+        // Render init. pagination buttons
+        _paginationViewJsDefault.default.render(_modelJs.state.search);
+    } catch (err) {
+        console.log(err);
+    }
+};
+const controlPagination = function(goTopage) {
+    // Render NEW results
+    _resultsViewJsDefault.default.render(_modelJs.getSearchResultsPage(goTopage));
+    // Render NEW pagination buttons
+    _paginationViewJsDefault.default.render(_modelJs.state.search);
+};
+const controlServings = function() {
+    // update recipe servings
+    _modelJs.updateServings(8);
+    // update view
+    _recipeViewJsDefault.default.render(_modelJs.state.recipe);
+};
+const init = function() {
+    _recipeViewJsDefault.default.addHandlerRender(controlRecipes);
+    _recipeViewJsDefault.default.addHandlerUpdateServings(controlServings);
+    _searchViewJsDefault.default.addHandlerSearch(controlSearchResults);
+    _paginationViewJsDefault.default.addHandlerClick(controlPagination);
+};
+init();

@@ -1,0 +1,11 @@
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _viewJs = require("./View.js");
+var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
+class resultsView extends _viewJsDefault.default {
+    _parentElement = document.querySelector('.results');
+    _generateMarkup() {
+        return `\n        \n        `;
+    }
+}
+exports.default = new resultsView();

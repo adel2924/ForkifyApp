@@ -1,0 +1,6 @@
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class RecipeView {
+    #parentElement = document.querySelector('.recipe');
+}
+exports.default = new RecipeView();
